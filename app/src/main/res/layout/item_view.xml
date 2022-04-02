@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/butterfly"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/butterflyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="-5dp"
+        android:text="@string/zwart"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/butterfly"
+        app:layout_constraintTop_toTopOf="@+id/butterfly" />
+
+    <TextView
+        android:id="@+id/butterflyFamily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-4dp"
+        android:text="@string/thymelicus_lineola"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@+id/butterflyName"
+        app:layout_constraintTop_toBottomOf="@id/butterflyName" />
+
+    <Button
+        android:id="@+id/minus"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button"
+        android:gravity="center"
+        android:text="@string/minus"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/butterflyName"
+        app:layout_constraintTop_toBottomOf="@+id/butterflyFamily" />
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="@string/zero"
+        android:textColor="@color/text_colour"
+        app:layout_constraintStart_toEndOf="@+id/minus"
+        app:layout_constraintTop_toTopOf="@+id/minus" />
+
+    <Button
+        android:id="@+id/plus"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button"
+        android:gravity="center"
+        android:text="@string/plus"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/count"
+        app:layout_constraintTop_toTopOf="@+id/minus" />
+
+    <Button
+        android:id="@+id/delete_Item"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:background="@drawable/deletebutton"
+        android:text="@string/Delete"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@+id/plus"
+        app:layout_constraintTop_toTopOf="@+id/plus"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
