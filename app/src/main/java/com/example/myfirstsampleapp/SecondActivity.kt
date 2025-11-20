@@ -11,10 +11,8 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_second)
         binding = ActivitySecondBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val imageReceived: Bitmap? = intent.getParcelableExtra("bitmap")
         val image = intent.getIntExtra("drawable", R.drawable.butterfly1)

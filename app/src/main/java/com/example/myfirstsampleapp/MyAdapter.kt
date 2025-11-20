@@ -1,31 +1,25 @@
 package com.example.myfirstsampleapp
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myfirstsampleapp.databinding.ItemViewBinding
 
 class MyAdapter(
-    private var butterfliesList: MutableList<Butterfly>,
-    //val onImageClicked: (MutableList<Butterfly>) -> Unit
+    private val butterfliesList: ArrayList<Butterfly>,
     private val myInterface: MyInterface
-)
-    : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-
+) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_view,parent,false)
-        return MyViewHolder(view)
+        val binding = ItemViewBinding.inflate(inflater, parent, false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(butterfliesList, position, this, myInterface)
-
+        holder.bind(butterfliesList[position])
     }
+
     override fun getItemCount(): Int {
         return butterfliesList.size
     }
@@ -35,73 +29,40 @@ class MyAdapter(
         notifyItemInserted(butterfliesList.size - 1)
     }
 
-    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var butterflyImageView: ImageView? = itemView.findViewById<ImageView>(R.id.butterfly)
-        var butterflyName: TextView? = itemView.findViewById<TextView>(R.id.butterflyName)
-        var butterflyFamily: TextView? = itemView.findViewById<TextView>(R.id.butterflyFamily)
-        var minus: Button? = itemView.findViewById(R.id.minus)
-        var plus: Button? = itemView.findViewById(R.id.plus)
-        var counter: TextView? = itemView.findViewById(R.id.count)
-        var deleteButton: Button? = itemView.findViewById(R.id.delete_Item)
+    inner class MyViewHolder(val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(butterfliesList: MutableList<Butterfly>, position: Int, myAdapter: MyAdapter, myInterface: MyInterface) {
-            butterflyImageView?.let { butterflyImageView ->
-                if (butterfliesList[position].butterfly != null &&
-                    butterfliesList[position].image == null) {
-                    butterfliesList[position].butterfly?.let {
-                        butterflyImageView.setImageResource(
-                            it
-                        )
-                    }
-                }else if (butterfliesList[position].image != null &&
-                    butterfliesList[position].butterfly == null){
-                    butterfliesList[position].image?.let {
-                        butterflyImageView.setImageBitmap(it)
-                    }
-                } else {
-                    butterflyImageView.setImageResource(R.drawable.back)
-                }
+        fun bind(butterfly: Butterfly) {
+            butterfly.butterfly?.let {
+                binding.butterfly.setImageResource(it)
             }
 
-            butterflyName?.let {
-                it.text = butterfliesList[position].name
+            butterfly.image?.let {
+                binding.butterfly.setImageBitmap(it)
             }
 
-            butterflyFamily?.let {
-                it.text = butterfliesList[position].family
+            binding.butterflyName.text = butterfly.name
+            binding.butterflyFamily.text = butterfly.family
+            binding.count.text = butterfly.count.toString()
+
+            binding.butterfly.setOnClickListener {
+                myInterface.onButterClicked(butterfly)
             }
 
-            butterflyImageView?.let {
-                it.setOnClickListener {
-                    myInterface.onButterClicked(position,butterfliesList)
-                }
+            binding.minus.setOnClickListener {
+                butterfly.count -= 1
+                binding.count.text = butterfly.count.toString()
             }
-            counter?.let {
-                it.text = "${butterfliesList[position].count}"
-//                it.text = (butterfliesList[position].count).toString()
 
+            binding.plus.setOnClickListener {
+                butterfly.count += 1
+                binding.count.text = butterfly.count.toString()
             }
-            minus?.let {
-                it.setOnClickListener {
-//                    butterfliesList[position].count -= 1
-//                    myAdapter.notifyItemChanged(position)
-                    butterfliesList[position].count -= 1
-                    counter?.text = (butterfliesList[position].count).toString()
-                }
-            }
-            plus?.let {
-                it.setOnClickListener {
-                    //butterfliesList[position].count += 1
-                    //myAdapter.notifyItemChanged(position)
-                    butterfliesList[position].count += 1
-                    counter?.text = (butterfliesList[position].count).toString()
-                }
-            }
-            deleteButton?.let {
-                it.setOnClickListener {
+
+            binding.deleteItem.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
                     butterfliesList.removeAt(position)
-                    myAdapter.notifyItemRemoved(position)
-                    myAdapter.notifyItemRangeChanged(position, butterfliesList.size)
+                    notifyItemRemoved(position)
                 }
             }
 
